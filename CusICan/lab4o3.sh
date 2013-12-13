@@ -2,6 +2,9 @@
 # ska göra ett skript som frågar om personns vikt och längd plus ger en passande kommentar.
 # I slutet finns en sammanfattning och en fråga. Blandar if och case vid tips kontakta gärna mig via antingen git/klassrummet eller telefon. 
 # King sh1t enjoy :D
+# Changelog 15:00 lagt till BMI skala med kommentar efter BMI - "no offence"
+# Om du är missnöjd med resultet. "Don't hate Oliver hate the script"
+# Regards, ajo gissa vem.
 clear
 echo ""
 read -p "How tall are you, answer in cm please? " cm
@@ -45,7 +48,7 @@ case $response in
     #let PRODUKT="$cm*$cm"
     PRODUKT=$(( $cm * $cm ))
     high=$(( $high * 10000 ))                                           # Lär dig detta , gör om 4,1. Definerar high för att inte få massa decimaler.
-    KVOT=$( echo "scale=5;$high/$PRODUKT" | bc )
+    KVOT=$( echo "scale=0;$high/$PRODUKT" | bc )
     echo "Din BMI är: $KVOT"
     ;;
 
@@ -54,4 +57,21 @@ case $response in
     ;;
 *) echo "Sorry"
     esac
+
+if [ $KVOT -le 19 ];then 
+    echo "Start eating some bro, gain weight"
+fi
+
+if [ $KVOT -gt 30 ];then
+    echo "You so fat, you need help yo"
+fi
+
+if [ $KVOT -ge 19 -a $KVOT -le 25 ];then
+    echo "Normal, gz"
+fi
+
+if [ $KVOT -ge 26 -a $KVOT -le 30 ];then
+    echo "Try diet coke"
+fi
+echo "Regards, Gerling ;>"
 exit 0
