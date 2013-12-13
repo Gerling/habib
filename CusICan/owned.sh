@@ -1,5 +1,7 @@
 #!/bin/bash 
-# ska göra ett skript som dömmer längen på personen
+# ska göra ett skript som frågar om personns vikt och längd plus ger en passande kommentar.
+# I slutet finns en sammanfattning och en fråga. Blandar if och case vid tips kontakta gärna mig via antingen git/klassrummet eller telefon. 
+# King sh1t enjoy :D
 clear
 echo ""
 read -p "How tall are you, answer in cm please? " cm
