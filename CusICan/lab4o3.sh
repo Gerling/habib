@@ -21,7 +21,7 @@ if [ $high -gt 88 ];then
     echo "omg you are heavy"
 elif [ $high -le 70 ];then
     echo "Omg u are like paper"
-else 
+else                                    # Allt i mellan 71-88 är standard och resulterar i:
     echo "$high is pretty standard for being $cm depending on muscles or babyfat"
 fi
 

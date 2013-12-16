@@ -1,0 +1,30 @@
+#!/bin/bash 
+# Uppgift 1 och 2  i laboration 5
+# Av: Oliver Gerling trollface.eu
+# Ska mata in en fråga som ber användern om ett tal mellan 10 och 100. med hjälp av en untill loop ska det räknas ner till 1.
+# Gör uppgift 1 och 2 samtidigt. 
+clear
+echo ""
+read -p "Say a number between 10 to 100 please " Number
+if [ $Number -gt 100 ];then 
+    echo "No time for trolling I'm starving add the correct one ;D"
+
+elif [ $Number -eq 69 ];then
+    echo "You dirty bastard"
+
+elif [ $Number -lt 10 ];then
+    echo " You tard :)? "
+else
+    echo "You said $Number"
+fi
+
+# Number=100
+until [ "$Number" -eq 0 ]; do
+    echo "$Number"
+    Number=$[ Number -1 ]
+done
+#until [ "$Number" -eq 1 ];do 
+   # echo "Number is: $Number"
+    # Number=$[ Number -1 ]
+#done
+exit 0
