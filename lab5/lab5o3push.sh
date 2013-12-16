@@ -7,14 +7,17 @@
     #Changelog 14:40 - Får den att söka och stanna när filen är skapad men får inte möjligheten att se echo medleandet "It's found"
     # Changelog 14:40 - eventuellt skapa i framtiden fråga om en fils namn utan att definera Fil variabeln??? lol tuff.
     # Changelog 14:48 - Byter exit 0 till exit 2 och får echo medelande "It's found" I'm king shit
+    #Changelog 15:50 - Utförde allt i hemmappen från början så när jag flyttade allt till /home/gerling/bashbajs/lab5/ så blev det förhinder men att sätta "Fil=$HOME/while.dat" fungerade. 
     # Regards, Gerling
 
-Fil=while.dat
+Fil=$HOME/while.dat
 while [ ! -f $Fil ];do     # För att fortsätta söka tills den hittar, för att                        skapa ett loopsystem. ! byter sant mot falskt.    
     if [ -e $Fil ]; then
         echo "It's found" 
     else 
         echo "Searching"
     fi
+
 done
+echo "It's found"
 exit 2                  # Använder mig av exit 2 och inte exit 0 och fungerar. 
