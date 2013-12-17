@@ -1,0 +1,21 @@
+#!/bin/bash 
+# Uppgift 6 kap 5
+
+Now=$(date +"%Y-%m-%d-%H.%M")                                           # Definerar datum
+Tar="/bin/tar"                                                          # Definerar TAR
+File1="$HOME/.bashrc"                                                   # Definerar filer
+File2="$HOME/.vimrc"
+Logfolderx="$HOME/backup"                                               #Här skapar den en backup mapp
+if [ ! -d $Logfolderx ]; then
+    mkdir -p $Logfolderx
+fi
+if [ -e $Logfolderx ]; then
+    echo "It's there"
+fi  
+$Tar -czpf ${Logfolderx}/backup.$Now.tar.gz $File1 $File2               # Targettar File1 och File2 ifrån rad 6 & 7
+cp backup.$Now.tar.gz /home/gerling/backup/ 
+cd backup
+tar -xzvfc backup*
+#cp $File2 /home/gerling/backup/ 
+
+exit 0
