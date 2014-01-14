@@ -1,0 +1,199 @@
+# routing och switching del 1. antekningar tisdag 14 januari
+# Oliver Gerling
+# Routing och switching 
+# Sweng lish
+
+
+Core  - bästa vid företagetm
+Distrubution: mellan byggnader
+acces -användaren.
+
+Access layer består av end noder som kan vara datorer, skrivare. 
+Dem finns på samma nätverk.
+Dem skickar trafik till Distrubtion layer.
+
+Distrubtion layer, knutpunkt till andra nätverk.
+Vidarförmedlar trafik till ev andra nät och till Core layer. 
+Filtrerar trafik , in och utgående -bra säkerhet. : Brandvägg och VLAN filtrering.
+
+Core layer
+"Backbonet" Bra prestanda och redundans.
+Transporterar mycket data till olika nätverk, detta sköts av ISP:er ( Internet service Provider, internet leverantören)
+
+
+
+ECNM  - Enterprise composite Network model.
+Delar in nätet efter funktionalitet. 
+1) enterprise campus 2) enterprise edge, 3) SP edge, 4)Remote modules
+
+EdgeDevice:
+Ingång eller utgång ur ECNM modellen. 
+Säkerheten är viktig, Vad är tillåtet att pasera?
+MAn kan välja vilket skydd som passar organisationen bäst, att välja allt som finns är inte bäst - blir en hel del problem. 
+
+Failure Domain - Den del av nätet som påverkas vid ett fel. 
+
+CSU/DSU ( en typ av modem)
+Kopplas till WAN-länken.
+Framereplace, HDLC , ATM, PPP
+
+Latency, den tid tar att processa trafik från en punkt till en annan.
+ex1, Switchar buffrar paket och kollar om de är skadade desto längre bort i nätet så längre blir problemet, i detta fall Latency. 
+
+Jitter, 
+Paketet tar olika lång tig på sig från nod t nod.
+Orsakas av överbelastad utrustning - Jitter skapar omsändningar som belastar nätverket.
+
+Schema över nätverket gör det väldigt mycket enklarare vid felsökning och så får man en bra översikt. 
+The Dude - gratis övervaknings program. 
+
+NOC - network operation center. 
+Sköter: servers, storage, routers och switches.
+Dem har backup system och miljö/temperatur kontroller
+
+IDF - Intermediate Distributions Facility
+ * Kabel rummet
+ Acces switches , WLAN-AP's 
+Air Condition man kan använda PoE - "power over ethernet" som är kabeln. 
+
+ MDF - Main Distrubtion Facilty . 
+ * Kan ingå i NOC
+ * Servers, Router/switches. 
+POP - point of presence, vid övergången från WLAN till LAN. 
+    Fysisk plats för kommunikationsutrustning.
+    InternetAcces.
+    CPE - Customer Premise Equipment kan lånas av ISPn. 
+
+
+
+Router komponenter och deras funktioner.
+
+CPU - Executes operating system instructions
+
+RAM (Random acces memory) -Contains the running copy of configuration file. Stores routing table. RAM contents lost when power is off. 
+
+ROM - Holds diagostic software usen when is powered up, stores the router's bootstrap program. 
+
+NVRAM - Stores startup configuarion. This many include IP adresses. Routing protocol, hostname of router)
+
+FLash memory - contains the operating system (CISCO IOS vanligast hos ciso)
+
+Interface - There exist multiple pshyical interface that are used to connect network. ex: Serial interfaces (koppla routers tillsammans) - Ethernet/Fast Ethernet/ Gigabit ethernet interfaces. 
+Managetment interfaces - konfigerar. 
+
+
+Hårdvaran i en cisco switch är inte helt lätt att förstå sig på. Supervisorn är utbyttbar ( vid uppdatering ) Supervisorn är "hjärtat" i switchen som datorns CPU. 
+Switchar hanteras 1 gång - kollar mycket mac-adresser behöver bara routas en gång. 
+
+De stora modellerna är också stora rent fysiskt men krävs mycket ström 15 amp /nät aggregat. 
+Catalyst OS och CISCO IOS är dem vanligaste, Den första finns i rummet (victors switcher) 
+Finns många som härmar ciscos design och struktur men cisco är den vanligaste. 
+Cisco IOS (deras egna)
+    * relativ lätt att lära om man redan sysslat med ciso routing 
+    * det svåra ligger i att lära sig en massa nya protokoll
+
+Catalyst OS (Uppköpt av cisco)
+    * Finns bara för dem större modellerna
+
+
+
+
+Fabric connectivity : GBPS som är intern genomströmning
+
+2514 har 2st AUI portat. Aui -> valfri typ av fysisk media.
+en MAU ( media access unit) -> RJ45
+2 st Seriell-kontakter kan avnändas CSU/DSU eller direkt koppling till annan router.
+Console och AUX finns också som RJ-45 typ, 
+
+Out-Of-Band konfigarion för linux: Minicom och Tera-term för Windows. 
+
+Major phases to the router/swtich boot-up process. 
+1) ROM - post, perform
+2) ROM - boostrap , load
+3) Flash  - samma som 4
+4) TFTP server -  CISCO IOS, locate and load OS
+5) NVRAM - Configuration, 5-7= Locate and oad configuration file or enter setup mode. 
+6) TFTP - Configuration 
+7) Console - Configuration
+
+#  Shorter version
+
+1)Test router hardware , Power on self test (POST) 
+    * execute bootstrap loader
+
+2) Locate & load cisco IOS.
+
+3) Locate & load startup
+
+
+I ROM:en kan man ändra hastigheten.
+Ändra register gå förbi lösenordkontrollen och även byta lösenord och sedan reboot:a 
+
+
+
+* Sätta hostnamn och IP-adress. 
+* Sätta IP adress i Switchar   
+    - en management IP adress sätts. 
+
+Sätta IP adress u switchar 
+    - en management IP adress, 
+                                INterfacen ska vara igång (tip)
+
+Grundkonfig forts.:
+* alla noder som använder IP, ska ha default gateway IP
+* router config ip route 0.0.0.0  0.0.0.0 172.21.0.1
+* switch config ip default-gateway 172.21.0.1
+
+-DNS inställningar.
+switch config # ip domain-lookup
+switch config # ip name-server 172.21.0.10 172.21.0.20
+
+RIP - Routing information protokoll 
+    - RIP är ett gammalt protokoll 1982
+    * Interior gateway protokoll
+    * Internt- d v s  för LAN
+
+        - RIP är en öppen standard. inte propriatary. 
+        - RIP är ettDistance vector protokoll. 
+
+• RIP protokollet
+– Tar beslut om färdväg enbart utefter kortaste rutt
+• Tar inte hänsyn till t ex bandbredd
+– Begränsning för hur många hopp som kan göras
+• 15 (16 = oändlighet)
+– RIP routrar propagerar ut hela routingtabellen
+• Var 30:e sekund , via broadcast
+– RIP har sämst konvergenstid
+• D v s den tid det tar innan en förändring av routinginfo
+har slagit igenom hos alla routrar
+
+
+ Mer fakta om RIP
+ – RIPv1 har inga säkerhetsfunktioner
+ – RIPv1 accepterar routinginformation från ”vem som helst”
+ – RIPv1 är ett classfull routingprotokoll
+ • Protokollet stödjer alltså inte subnetting
+ – RIPv2 är ett classless routingprotokoll
+ • Protokollet stödjer subnetting
+ – OBS! Även RIPv2 kör helt okrypterat och utan lösenord
+ – Du måste konfigurera för säkerhet själv!
+ – Kontrollera (med Wireshark) att inga lösenord kan ”sniffas” i ditt LAN
+
+
+ Protokollet CDP (Cisco Discovery Protocol)
+ • Olika sorters utrustning från Cisco ska kunna upptäckas
+ •
+ Använder multicast
+ • CDP (minst v2) krävs t ex när Ciscoswitchar sätts i kluster
+ • Protokollet kan användas för ”on-demand” routing
+ •
+ •
+ För mindre nätverk
+ Andra routingprotokoll behöver inte konfigureras
+ • CDP kan upptäcka felkonfiguration, t ex med Duplex
+ • CDP passar bäst i mindre, rena ”Cisco nät”
+ • CDP är känsligt för hackerattacker
+
+ BACKBONE VAD ÄR DET.   
+ 
+
