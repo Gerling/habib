@@ -5,9 +5,19 @@
 # Changelog 15:00 lagt till BMI skala med kommentar efter BMI - "no offence"
 # Om du är missnöjd med resultet. "Don't hate Oliver hate the script"
 # Regards, ajo gissa vem.
+
+input_check()
+{
+if ! [ "$1" -eq "$1" 2> /dev/null ]; then
+	echo "Plz enter numbers only!"
+	exit 1
+fi
+}
+
 clear
 echo ""
 read -p "How tall are you, answer in cm please? " cm
+input_check $cm
 if [ $cm -gt 190 ];then
     echo "omfg you are a giant, ladies liky"
 elif [ $cm -le 180 ];then
@@ -17,6 +27,7 @@ else
 fi
 
 read -p "How much do you weight, if I may ask? " high
+input_check $cm
 if [ $high -gt 88 ];then
     echo "omg you are heavy"
 elif [ $high -le 70 ];then
@@ -54,8 +65,10 @@ case $response in
 
     n|N)
     echo "Be boring then"
+    exit 0
     ;;
 *) echo "Sorry"
+   exit 1
     esac
 
 if [ $KVOT -le 19 ];then 
